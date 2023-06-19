@@ -17,9 +17,9 @@ export default function BubblegumLogo({className}: any) {
                     r="0.505"
                     gradientUnits="objectBoundingBox"
                 >
-                    <stop offset="0" stop-color="#f3dcff" />
-                    <stop offset="0.544" stop-color="#db41be" />
-                    <stop offset="1" stop-color="#9d2b7a" />
+                    <stop offset="0" stopColor="#f3dcff" />
+                    <stop offset="0.544" stopColor="#db41be" />
+                    <stop offset="1" stopColor="#9d2b7a" />
                 </radialGradient>
             </defs>
             <circle
