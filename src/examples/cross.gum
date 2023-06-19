@@ -1,0 +1,55 @@
+
+Center() {
+    Rotate(angle: 240, duration: 1000, loop: true, alternate: true) {
+        Stack() {
+
+            Rotate(angle: 360, duration: 1400, loop: true, alternate: true) {
+                Stack() {
+
+                    Rotate(angle: 360, duration: 900, loop: true, alternate: true) {
+                        Stack() {
+                            TranslateX(end-value: 50, duration: 500, loop: true, alternate: true) {
+                                Rectangle(width: 50, height: 50, fill-color: #0ff000)
+                            },
+                            TranslateY(end-value: 50, duration: 500, loop: true, alternate: true) {
+                                Rectangle(width: 50, height: 50, fill-color: #ff00f0)
+                            },
+                            TranslateX(end-value: -50, duration: 500, loop: true, alternate: true) {
+                                Rectangle(width: 50, height: 50, fill-color: #0000ff)
+                            },
+                            TranslateY(end-value: -50, duration: 500, loop: true, alternate: true) {
+                                Rectangle(width: 50, height: 50, fill-color: #0ffff0)
+                            }
+                        }
+                    },
+
+                    TranslateX(end-value: 200, duration: 800, loop: true, alternate: true) {
+                        Rectangle(width: 100, height: 100, fill-color: #0ff000)
+                    },
+                    TranslateY(end-value: 200, duration: 800, loop: true, alternate: true) {
+                        Rectangle(width: 100, height: 100, fill-color: #ff00f0)
+                    },
+                    TranslateX(end-value: -200, duration: 800, loop: true, alternate: true) {
+                        Rectangle(width: 100, height: 100, fill-color: #0000ff)
+                    },
+                    TranslateY(end-value: -200, duration: 800, loop: true, alternate: true) {
+                        Rectangle(width: 100, height: 100, fill-color: #0ffff0)
+                    }
+                }
+            },
+            
+            TranslateX(end-value: 400, duration: 1000, loop: true, alternate: true) {
+                Rectangle(width: 200, height: 200, fill-color: #0ff000)
+            },
+            TranslateY(end-value: 400, duration: 1000, loop: true, alternate: true) {
+                Rectangle(width: 200, height: 200, fill-color: #ff00f0)
+            },
+            TranslateX(end-value: -400, duration: 1000, loop: true, alternate: true) {
+                Rectangle(width: 200, height: 200, fill-color: #0000ff)
+            },
+            TranslateY(end-value: -400, duration: 1000, loop: true, alternate: true) {
+                Rectangle(width: 200, height: 200, fill-color: #0ffff0)
+            }
+        }
+    }
+}
