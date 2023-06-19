@@ -4,7 +4,7 @@ import { bubblegumTheme } from "@/compiler/editor/theme";
 import BubblegumLogo from "@/components/logo";
 import loader from "@monaco-editor/loader";
 import { Editor } from "@monaco-editor/react";
-import { PlayIcon } from "lucide-react";
+import { CopyIcon, PlayIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import createCompilerModule from "../compiler/Compiler";
@@ -103,8 +103,13 @@ export default function Home() {
 
         const encodedCode = searchParams.get("c");
         console.log(encodedCode);
-        encodedCode && setValue(atob(encodedCode))
+        encodedCode && setValue(atob(encodedCode));
     }, []);
+
+    function handleShare() {
+        toast.success("Link copied to clipboard");
+        navigator.clipboard.writeText(location.href)
+    }
 
     function handleParse() {
         if (!parse) {
@@ -116,9 +121,8 @@ export default function Home() {
                 toast.error("Failed to create animation");
                 return;
             }
-
+            history.replaceState(null, "", `/?c=${btoa(debounced!)}`);
             toast.success("Animation created");
-            history.replaceState(null, "", `/?c=${btoa(value!)}`);
             setCode(code);
         });
     }
@@ -129,6 +133,7 @@ export default function Home() {
 
     useEffect(() => {
         handleParse();
+        
     }, [debounced]);
 
     if (!parse) return <div></div>;
@@ -145,11 +150,19 @@ export default function Home() {
                     className="col-start-1 col-end-3 row-start-1 row-end-2 border-b dark:border-neutral-800 border-neutral-200 flex justify-between items-center pl-7 pr-2"
                 >
                     <BubblegumLogo className="hover:scale-125 duration-150" />
-                    <div
-                        onClick={handleParse}
-                        className="h-full px-4 hover:bg-[#D73FB9] duration-100 border-x border-neutral-800 flex items-center cursor-pointer"
-                    >
-                        <PlayIcon size={16} />
+                    <div className="flex h-full">
+                        <div
+                            onClick={handleShare}
+                            className="px-4 hover:bg-[#D73FB9] duration-100 border-x border-neutral-800 flex items-center cursor-pointer"
+                        >
+                            <CopyIcon size={16} />
+                        </div>
+                        <div
+                            onClick={handleParse}
+                            className=" px-4 hover:bg-[#D73FB9] duration-100 border-x border-neutral-800 flex items-center cursor-pointer"
+                        >
+                            <PlayIcon size={16} />
+                        </div>
                     </div>
                 </header>
 
@@ -170,6 +183,7 @@ export default function Home() {
                     <iframe
                         srcDoc={code.replace(/(\r\n|\n|\r|\t)/gm, "")}
                         className="w-full h-full"
+                        style={{overflow: "hidden"}}
                     />
                 </main>
             </div>
