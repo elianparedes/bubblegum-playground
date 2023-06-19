@@ -2,13 +2,14 @@
 
 import { bubblegumTheme } from "@/compiler/editor/theme";
 import BubblegumLogo from "@/components/logo";
-import loader from '@monaco-editor/loader';
+import loader from "@monaco-editor/loader";
 import { Editor } from "@monaco-editor/react";
 import { PlayIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import createCompilerModule from "../compiler/Compiler";
-import { useDebouncedValue } from '@mantine/hooks';
+import { useDebouncedValue } from "@mantine/hooks";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const example = String`
 Center() {
@@ -65,12 +66,7 @@ Center() {
         }
     }
 }
-`
-
-const editorOptions = {
-    fontSize: 13,
-};
-
+`;
 function wrapParse(Module: any) {
     return function (code: string, callback: Function): void {
         let codePtr = Module.stringToNewUTF8(code);
@@ -91,6 +87,8 @@ export default function Home() {
     const [debounced] = useDebouncedValue(value, 1000);
     const [parse, setParse] = useState<Function>();
     const [code, setCode] = useState("");
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         createCompilerModule().then((Module: any) => {
@@ -100,9 +98,13 @@ export default function Home() {
 
     useEffect(() => {
         loader.init().then((monaco) => {
-            monaco.editor.defineTheme('bubblegum', bubblegumTheme)
-          });
-    }, [])
+            monaco.editor.defineTheme("bubblegum", bubblegumTheme);
+        });
+
+        const encodedCode = searchParams.get("c");
+        console.log(encodedCode);
+        encodedCode && setValue(atob(encodedCode))
+    }, []);
 
     function handleParse() {
         if (!parse) {
@@ -116,7 +118,8 @@ export default function Home() {
             }
 
             toast.success("Animation created");
-            setCode(code)
+            history.replaceState(null, "", `/?c=${btoa(value!)}`);
+            setCode(code);
         });
     }
 
@@ -125,14 +128,17 @@ export default function Home() {
     }
 
     useEffect(() => {
-        handleParse()
+        handleParse();
     }, [debounced]);
 
     if (!parse) return <div></div>;
 
     return (
         <>
-            <Toaster theme="dark" toastOptions={{ style: { borderRadius: 0 } }}/>
+            <Toaster
+                theme="dark"
+                toastOptions={{ style: { borderRadius: 0 } }}
+            />
             <div className="grid grid-cols-[1fr_100vh] grid-rows-[48px_1fr] h-[100vh] bg-white dark:bg-neutral-950">
                 <header
                     data-tauri-drag-region
@@ -153,11 +159,10 @@ export default function Home() {
                         value={value}
                         theme="bubblegum"
                         options={{
-                            minimap: {enabled: false},
-                            fontSize: 14
+                            minimap: { enabled: false },
+                            fontSize: 14,
                         }}
                         onChange={handleEditorChange}
-                        
                     />
                 </section>
 
