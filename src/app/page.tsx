@@ -8,6 +8,7 @@ import { PlayIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import createCompilerModule from "../compiler/Compiler";
+import { useDebouncedValue } from '@mantine/hooks';
 
 const example = String`
 Center() {
@@ -86,18 +87,15 @@ function wrapParse(Module: any) {
 }
 
 export default function Home() {
-    const [value, setValue] = useState<string | undefined>(
-        example
-    );
+    const [value, setValue] = useState<string | undefined>(example);
+    const [debounced] = useDebouncedValue(value, 1000);
     const [parse, setParse] = useState<Function>();
-
     const [code, setCode] = useState("");
 
     useEffect(() => {
         createCompilerModule().then((Module: any) => {
             setParse(() => wrapParse(Module));
         });
-        console.log("adg");
     }, [code]);
 
     useEffect(() => {
@@ -113,7 +111,7 @@ export default function Home() {
 
         parse(value, (code: string) => {
             if (code.length === 240) {
-                toast.error("Failder to create animation");
+                toast.error("Failed to create animation");
                 return;
             }
 
@@ -127,8 +125,8 @@ export default function Home() {
     }
 
     useEffect(() => {
-        console.log(code);
-    }, [code]);
+        handleParse()
+    }, [debounced]);
 
     if (!parse) return <div></div>;
 
