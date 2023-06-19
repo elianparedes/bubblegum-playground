@@ -1,13 +1,13 @@
 "use client";
 
-import { Editor } from "@monaco-editor/react";
-import { useEffect, useRef, useState } from "react";
-import createCompilerModule from "../compiler/Compiler";
-import BubblegumLogo from "@/components/logo";
-import { PlayIcon } from "lucide-react";
-import { Toaster, toast } from "sonner";
-import loader from '@monaco-editor/loader';
 import { bubblegumTheme } from "@/compiler/editor/theme";
+import BubblegumLogo from "@/components/logo";
+import loader from '@monaco-editor/loader';
+import { Editor } from "@monaco-editor/react";
+import { PlayIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
+import createCompilerModule from "../compiler/Compiler";
 
 const example = String`
 Center() {
@@ -110,9 +110,16 @@ export default function Home() {
         if (!parse) {
             return;
         }
-        toast("Event has been created");
 
-        parse(value, (code: string) => setCode(code));
+        parse(value, (code: string) => {
+            if (code.length === 240) {
+                toast.error("Failder to create animation");
+                return;
+            }
+
+            toast.success("Animation created");
+            setCode(code)
+        });
     }
 
     function handleEditorChange(value: string | undefined, ev: any) {
@@ -121,13 +128,13 @@ export default function Home() {
 
     useEffect(() => {
         console.log(code);
-    });
+    }, [code]);
 
-    if (!parse) return <div>Loading environment...</div>;
+    if (!parse) return <div></div>;
 
     return (
         <>
-            <Toaster theme="dark" />
+            <Toaster theme="dark" toastOptions={{ style: { borderRadius: 0 } }}/>
             <div className="grid grid-cols-[1fr_100vh] grid-rows-[48px_1fr] h-[100vh] bg-white dark:bg-neutral-950">
                 <header
                     data-tauri-drag-region
