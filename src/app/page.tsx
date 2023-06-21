@@ -108,7 +108,7 @@ export default function Home() {
 
     function handleShare() {
         toast.success("Link copied to clipboard");
-        navigator.clipboard.writeText(location.href)
+        navigator.clipboard.writeText(location.href);
     }
 
     function handleParse() {
@@ -133,7 +133,6 @@ export default function Home() {
 
     useEffect(() => {
         handleParse();
-        
     }, [debounced]);
 
     if (!parse) return <div></div>;
@@ -147,7 +146,7 @@ export default function Home() {
             <div className="grid grid-cols-[1fr_100vh] grid-rows-[48px_1fr] h-[100vh] bg-white dark:bg-neutral-950">
                 <header
                     data-tauri-drag-region
-                    className="col-start-1 col-end-3 row-start-1 row-end-2 border-b dark:border-neutral-800 border-neutral-200 flex justify-between items-center pl-7 pr-2"
+                    className="col-start-1 col-end-2 row-start-1 row-end-2 border-b dark:border-neutral-800 border-neutral-200 flex justify-between items-center pl-7"
                 >
                     <BubblegumLogo className="hover:scale-125 duration-150" />
                     <div className="flex h-full">
@@ -179,11 +178,11 @@ export default function Home() {
                     />
                 </section>
 
-                <main className="flex-grow overflow-y-auto transition-colors duration-300">
+                <main className="flex-grow overflow-y-auto transition-colors duration-300 col-start-2 col-end-3 row-start-1 row-end-3">
                     <iframe
                         srcDoc={code.replace(/(\r\n|\n|\r|\t)/gm, "")}
                         className="w-full h-full"
-                        style={{overflow: "hidden"}}
+                        style={{ overflow: "hidden" }}
                     />
                 </main>
             </div>
