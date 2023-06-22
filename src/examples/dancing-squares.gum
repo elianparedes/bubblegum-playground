@@ -1,3 +1,18 @@
+bigCyanSquare = Rectangle(width: 200, height: 200, fill-color: #0ffff0)
+bigGreenSquare = Rectangle(width: 200, height: 200, fill-color: #0ff000)
+bigPinkSquare = Rectangle(width: 200, height: 200, fill-color: #ff00f0)
+bigBlueSquare = Rectangle(width: 200, height: 200, fill-color: #0000ff)
+
+midCyanSquare = Rectangle(width: 100, height: 100, fill-color: #0ffff0)
+midGreenSquare = Rectangle(width: 100, height: 100, fill-color: #0ff000)
+midPinkSquare = Rectangle(width: 100, height: 100, fill-color: #ff00f0)
+midBlueSquare = Rectangle(width: 100, height: 100, fill-color: #0000ff)
+
+smallCyanSquare = Rectangle(width: 50, height: 50, fill-color: #0ffff0)
+smallGreenSquare = Rectangle(width: 50, height: 50, fill-color: #0ff000)
+smallPinkSquare = Rectangle(width: 50, height: 50, fill-color: #ff00f0)
+smallBlueSquare = Rectangle(width: 50, height: 50, fill-color: #0000ff)
+
 Center() {
     Rotate(angle: 240, duration: 1000, loop: true, alternate: true) {
         Stack() {
@@ -6,46 +21,46 @@ Center() {
                     Rotate(angle: 360, duration: 900, loop: true, alternate: true) {
                         Stack() {
                             TranslateX(end-value: 50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #0ff000)
+                                smallGreenSquare
                             },
                             TranslateY(end-value: 50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #ff00f0)
+                                smallPinkSquare
                             },
                             TranslateX(end-value: -50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #0000ff)
+                                smallBlueSquare
                             },
                             TranslateY(end-value: -50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #0ffff0)
+                                smallCyanSquare
                             }
                         }
                     },
 
                     TranslateX(end-value: 200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #0ff000)
+                        midGreenSquare
                     },
                     TranslateY(end-value: 200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #ff00f0)
+                        midPinkSquare
                     },
                     TranslateX(end-value: -200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #0000ff)
+                        midBlueSquare
                     },
                     TranslateY(end-value: -200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #0ffff0)
+                        midCyanSquare
                     }
                 }
             },
             
             TranslateX(end-value: 400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #0ff000)
+                bigGreenSquare
             },
             TranslateY(end-value: 400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #ff00f0)
+                bigPinkSquare
             },
             TranslateX(end-value: -400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #0000ff)
+                bigBlueSquare
             },
             TranslateY(end-value: -400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #0ffff0)
+                bigCyanSquare
             }
         }
     }
