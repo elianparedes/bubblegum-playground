@@ -38,7 +38,6 @@ export default function Home() {
     const [debounced] = useDebouncedValue(value, 1000);
     const [parse, setParse] = useState<Function>();
     const [code, setCode] = useState("");
-    const router = useRouter();
     const searchParams = useSearchParams();
     const [example, setExample] = useState(examples[0].name);
 
