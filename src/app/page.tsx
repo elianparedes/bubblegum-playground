@@ -87,6 +87,7 @@ export default function Home() {
             }
             history.replaceState(null, "", `/?c=${btoa(debounced!)}`);
             toast.success("Animation created");
+            console.log(code);
             setCode(code);
         });
     }
