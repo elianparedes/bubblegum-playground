@@ -1,77 +1,28 @@
 "use client";
 
 import { bubblegumTheme } from "@/compiler/editor/theme";
-import BubblegumLogo from "@/components/logo";
+import BubblegumLogo from "@/components/brand/logo";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { examples } from "@/examples";
+import { useDebouncedValue } from "@mantine/hooks";
 import loader from "@monaco-editor/loader";
 import { Editor } from "@monaco-editor/react";
 import { CopyIcon, PlayIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import createCompilerModule from "../compiler/Compiler";
-import { useDebouncedValue } from "@mantine/hooks";
-import { useRouter, useSearchParams } from "next/navigation";
 
-const example = String`
-Center() {
-    Rotate(angle: 240, duration: 1000, loop: true, alternate: true) {
-        Stack() {
-
-            Rotate(angle: 360, duration: 1400, loop: true, alternate: true) {
-                Stack() {
-
-                    Rotate(angle: 360, duration: 900, loop: true, alternate: true) {
-                        Stack() {
-                            TranslateX(end-value: 50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #0ff000)
-                            },
-                            TranslateY(end-value: 50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #ff00f0)
-                            },
-                            TranslateX(end-value: -50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #0000ff)
-                            },
-                            TranslateY(end-value: -50, duration: 500, loop: true, alternate: true) {
-                                Rectangle(width: 50, height: 50, fill-color: #0ffff0)
-                            }
-                        }
-                    },
-
-                    TranslateX(end-value: 200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #0ff000)
-                    },
-                    TranslateY(end-value: 200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #ff00f0)
-                    },
-                    TranslateX(end-value: -200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #0000ff)
-                    },
-                    TranslateY(end-value: -200, duration: 800, loop: true, alternate: true) {
-                        Rectangle(width: 100, height: 100, fill-color: #0ffff0)
-                    }
-                }
-            },
-            
-            TranslateX(end-value: 400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #0ff000)
-            },
-            TranslateY(end-value: 400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #ff00f0)
-            },
-            TranslateX(end-value: -400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #0000ff)
-            },
-            TranslateY(end-value: -400, duration: 1000, loop: true, alternate: true) {
-                Rectangle(width: 200, height: 200, fill-color: #0ffff0)
-            }
-        }
-    }
-}
-`;
 function wrapParse(Module: any) {
     return function (code: string, callback: Function): void {
         let codePtr = Module.stringToNewUTF8(code);
 
-        // Call the C function using ccall
         let result = Module.ccall("getCode", "number", ["number"], [codePtr]);
         let parsedCode = Module.UTF8ToString(result);
 
@@ -83,12 +34,13 @@ function wrapParse(Module: any) {
 }
 
 export default function Home() {
-    const [value, setValue] = useState<string | undefined>(example);
+    const [value, setValue] = useState<string | undefined>(examples[0].content);
     const [debounced] = useDebouncedValue(value, 1000);
     const [parse, setParse] = useState<Function>();
     const [code, setCode] = useState("");
     const router = useRouter();
     const searchParams = useSearchParams();
+    const [example, setExample] = useState(examples[0].name);
 
     useEffect(() => {
         createCompilerModule().then((Module: any) => {
@@ -109,6 +61,19 @@ export default function Home() {
     function handleShare() {
         toast.success("Link copied to clipboard");
         navigator.clipboard.writeText(location.href);
+    }
+
+    function handleSelect(value: string) {
+        const selectedExample = examples.find(
+            (example) => example.name === value
+        );
+
+        if (!selectedExample) return;
+
+        console.log(selectedExample.content);
+
+        setExample(selectedExample.name);
+        setValue(selectedExample.content);
     }
 
     function handleParse() {
@@ -143,22 +108,37 @@ export default function Home() {
                 theme="dark"
                 toastOptions={{ style: { borderRadius: 0 } }}
             />
-            <div className="grid grid-cols-[1fr_100vh] grid-rows-[48px_1fr] h-[100vh] bg-white dark:bg-neutral-950">
+            <div className="grid grid-cols-[1fr_90vh] grid-rows-[48px_1fr] h-[100vh] bg-white dark:bg-neutral-950">
                 <header
                     data-tauri-drag-region
                     className="col-start-1 col-end-2 row-start-1 row-end-2 border-b dark:border-neutral-800 border-neutral-200 flex justify-between items-center pl-7"
                 >
                     <BubblegumLogo className="hover:scale-125 duration-150" />
                     <div className="flex h-full">
+                        <Select value={example} onValueChange={handleSelect}>
+                            <SelectTrigger className="w-[18rem] duration-150">
+                                <SelectValue placeholder="Examples" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {examples.map((example, index) => (
+                                    <SelectItem
+                                        value={example.name}
+                                        key={index}
+                                    >
+                                        {example.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <div
                             onClick={handleShare}
-                            className="px-4 hover:bg-[#D73FB9] duration-100 border-x border-neutral-800 flex items-center cursor-pointer"
+                            className="px-4 hover:bg-neutral-900 hover:text-white duration-150 border-l border-neutral-800 flex items-center cursor-pointer text-neutral-400"
                         >
                             <CopyIcon size={16} />
                         </div>
                         <div
                             onClick={handleParse}
-                            className=" px-4 hover:bg-[#D73FB9] duration-100 border-x border-neutral-800 flex items-center cursor-pointer"
+                            className=" px-4 hover:bg-[#D73FB9] hover:text-white duration-150 border-x border-neutral-800 flex items-center cursor-pointer text-neutral-400"
                         >
                             <PlayIcon size={16} />
                         </div>

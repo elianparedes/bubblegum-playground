@@ -1,0 +1,39 @@
+Center() {
+    Stack() {
+        Recolor(end-color: #FF00FF, duration: 1000, loop: true, alternate: true) {
+            Rotate(angle: 90, loop: true, duration: 1000, alternate: true) {
+                Resize(scale: 3.5, duration: 400, loop: true, alternate: true) {
+                    Rectangle(height: 100, width: 100, fill-color: #006266)
+                }
+            }
+        },
+        Recolor(end-color: #00FFFF, duration: 1000, loop: true, alternate: true) {
+            Rotate(angle: 120, loop: true, duration: 1000, delay: 100, alternate: true) {
+                Resize(scale: 3.0, duration: 1000, loop: true, alternate: true) {
+                    Rectangle(height: 100, width: 100, fill-color: #009432)
+                }
+            }
+        },
+        Recolor(end-color: #FF0000, duration: 1000, loop: true, alternate: true) {
+            Rotate(angle: 160, loop: true, duration: 1000, delay: 200, alternate: true) {
+                Resize(scale: 2.5, duration: 700, loop: true, alternate: true) {
+                    Rectangle(height: 100, width: 100, fill-color: #A3CB38)
+                }
+            }
+        },
+        Recolor(end-color: #0000FF, duration: 1000, loop: true, alternate: true) {
+            Rotate(angle: 180, loop: true, duration: 1000, delay: 300, alternate: true) {
+                Resize(scale: 2.0, duration: 400, loop: true, alternate: true) {
+                    Rectangle(height: 100, width: 100, fill-color: #C4E538)
+                }
+            }
+        },
+        Recolor(end-color: #0FF0FF, duration: 1000, loop: true, alternate: true) {
+            Rotate(angle: 240, loop: true, duration: 1000, delay: 400, alternate: true) {
+                Resize(scale: 1.5, duration: 2000, loop: true, alternate: true) {
+                    Rectangle(height: 100, width: 100, fill-color: #12CBC4)
+                }
+            }
+        }
+    }
+}

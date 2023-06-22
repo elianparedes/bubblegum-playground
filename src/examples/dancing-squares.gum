@@ -1,11 +1,8 @@
-
 Center() {
     Rotate(angle: 240, duration: 1000, loop: true, alternate: true) {
         Stack() {
-
             Rotate(angle: 360, duration: 1400, loop: true, alternate: true) {
                 Stack() {
-
                     Rotate(angle: 360, duration: 900, loop: true, alternate: true) {
                         Stack() {
                             TranslateX(end-value: 50, duration: 500, loop: true, alternate: true) {
@@ -53,3 +50,4 @@ Center() {
         }
     }
 }
+        
